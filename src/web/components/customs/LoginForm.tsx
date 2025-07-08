@@ -29,7 +29,7 @@ export default function LoginForm({ form }: LoginFormProps) {
     {
       onSuccess: (data) => {
         toast.success(data.customMessage);
-        router.push("/");
+        router.push("/profil");
       },
     }
   );

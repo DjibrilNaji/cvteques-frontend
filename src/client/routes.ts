@@ -5,6 +5,7 @@ const routes = {
       register: "/users/register",
       login: "/users/login",
     },
+    upload: "/cv/upload",
   },
 };
 

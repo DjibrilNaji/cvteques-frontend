@@ -38,7 +38,7 @@ export default function RegisterForm({ form }: RegisterFormProps) {
     {
       onSuccess: (data) => {
         toast.success(data.customMessage);
-        router.push("/");
+        router.push("/profil");
       },
     }
   );

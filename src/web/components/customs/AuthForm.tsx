@@ -58,7 +58,7 @@ export default function AuthForm() {
     console.log(isLogin ? "Connexion" : "Inscription", data);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4 text-white">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <motion.div
         className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg p-6 sm:p-8 rounded-xl w-full max-w-md"
         layout
@@ -70,7 +70,7 @@ export default function AuthForm() {
         {/* Toggle */}
         <div className="flex bg-white/5 rounded-xl p-1 mb-6">
           <Button
-            variant={isLogin ? "ghost" : "signup"}
+            variant={isLogin ? "ghost" : "outline"}
             className="flex-1 rounded-l-lg"
             onClick={() => {
               setIsLogin(false);
@@ -80,7 +80,7 @@ export default function AuthForm() {
             Inscription
           </Button>
           <Button
-            variant={isLogin ? "login" : "ghost"}
+            variant={isLogin ? "outline" : "ghost"}
             className="flex-1 rounded-r-lg"
             onClick={() => {
               setIsLogin(true);
@@ -186,7 +186,7 @@ export default function AuthForm() {
             <Button
               type="submit"
               className="w-full"
-              variant={isLogin ? "login" : "signup"}
+              variant={isLogin ? "default" : "default"}
             >
               {isLogin ? "Se connecter" : "S'inscrire"}
             </Button>

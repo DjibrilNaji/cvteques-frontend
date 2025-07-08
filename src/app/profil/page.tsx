@@ -12,65 +12,51 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ArrowLeft, Plus, X, Upload } from "lucide-react";
+
+import { ArrowLeft, Upload } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
   const [userRole, setUserRole] = useState<string>("");
-  const [skills, setSkills] = useState<string[]>([
-    "React",
-    "Node.js",
-    "TypeScript",
-  ]);
-  const [newSkill, setNewSkill] = useState("");
-  const [experiences, setExperiences] = useState([
-    {
-      id: 1,
-      title: "Développeur Frontend",
-      company: "TechCorp",
-      duration: "2022 - 2024",
-      description: "Développement d'applications React",
-    },
-  ]);
+
   const router = useRouter();
+
+  const [pendingCV, setPendingCV] = useState<File | null>(null);
+  const [uploadedCV, setUploadedCV] = useState<{
+    name: string;
+    date: string;
+  } | null>(null);
 
   useEffect(() => {
     const role = localStorage.getItem("userRole");
-
     setUserRole(role || "eleve");
   }, [router]);
 
-  const addSkill = () => {
-    if (newSkill.trim() && !skills.includes(newSkill.trim())) {
-      setSkills([...skills, newSkill.trim()]);
-      setNewSkill("");
+  const handleCVSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (file.type !== "application/pdf") {
+        alert("Merci de sélectionner un fichier PDF.");
+        return;
+      }
+      setPendingCV(file);
     }
   };
 
-  const removeSkill = (skillToRemove: string) => {
-    setSkills(skills.filter((skill) => skill !== skillToRemove));
+  // Confirmer l'upload (simulé)
+  const confirmCVUpload = () => {
+    if (!pendingCV) return;
+    setUploadedCV({
+      name: pendingCV.name,
+      date: new Date().toLocaleDateString("fr-FR"),
+    });
+    setPendingCV(null);
   };
 
-  const addExperience = () => {
-    const newExp = {
-      id: Date.now(),
-      title: "",
-      company: "",
-      duration: "",
-      description: "",
-    };
-    setExperiences([...experiences, newExp]);
+  // Remplacer le CV : réinitialise tout pour permettre un nouvel upload
+  const replaceCV = () => {
+    setUploadedCV(null);
   };
 
   return (
@@ -144,35 +130,62 @@ export default function ProfilePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600 mb-2">
-                    Glissez-déposez votre CV ici
-                  </p>
-                  <p className="text-sm text-gray-500 mb-4">ou</p>
-                  <Button variant="outline">Parcourir les fichiers</Button>
-                </div>
+                {/* Zone d'upload cliquable entière */}
+                {!uploadedCV && !pendingCV && (
+                  <label
+                    htmlFor="cv-upload"
+                    className="border border-dashed border-gray-400 rounded-md p-6 text-center cursor-pointer flex flex-col items-center justify-center"
+                  >
+                    <Upload className="h-12 w-12 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">
+                      Déposez votre CV au format PDF
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      ou cliquez ici pour sélectionner un fichier
+                    </p>
+                    <input
+                      id="cv-upload"
+                      type="file"
+                      accept=".pdf"
+                      onChange={handleCVSelection}
+                      className="hidden"
+                    />
+                  </label>
+                )}
 
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <div className="flex items-center justify-between">
+                {/* Bouton de confirmation d'upload */}
+                {pendingCV && (
+                  <div className="flex items-center justify-between border border-yellow-400 rounded-md p-4 bg-yellow-50">
+                    <span className="text-yellow-700 font-medium">
+                      {pendingCV.name}
+                    </span>
+                    <Button variant="default" onClick={confirmCVUpload}>
+                      Uploader mon CV
+                    </Button>
+                  </div>
+                )}
+
+                {/* Affichage du CV uploadé */}
+                {uploadedCV && (
+                  <div className="flex items-center justify-between border border-green-400 rounded-md p-4 bg-green-50">
                     <div>
-                      <p className="font-medium text-green-800">
-                        CV_Jean_Dupont.pdf
+                      <p className="text-green-800 font-medium">
+                        {uploadedCV.name}
                       </p>
-                      <p className="text-sm text-green-600">
-                        Téléchargé le 15/01/2024
+                      <p className="text-green-600 text-sm">
+                        Téléchargé le {uploadedCV.date}
                       </p>
                     </div>
                     <div className="flex space-x-2">
                       <Button variant="outline" size="sm">
                         Voir
                       </Button>
-                      <Button variant="outline" size="sm">
-                        Remplacer
+                      <Button variant="outline" size="sm" onClick={replaceCV}>
+                        Supprimer
                       </Button>
                     </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

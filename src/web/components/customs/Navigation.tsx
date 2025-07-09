@@ -91,7 +91,7 @@ export default function Navigation() {
 
             <div className="flex items-center space-x-3">
               <span className="text-sm text-gray-600 hidden lg:block">
-                {user.firstName} {user.lastName}
+                {user.firstname} {user.lastname}
               </span>
               <Button
                 variant="ghost"
@@ -154,7 +154,7 @@ export default function Navigation() {
 
               <div className="pt-2 border-t flex flex-col gap-2">
                 <p className="text-sm text-gray-600 px-3 py-2">
-                  {user.firstName} {user.lastName}
+                  {user.firstname} {user.lastname}
                 </p>
                 <Button
                   variant="ghost"

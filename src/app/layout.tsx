@@ -1,5 +1,6 @@
 import { AuthProvider } from "@/client/provider/AuthProvider";
 import TanstackProvider from "@/client/provider/TanstackProvider";
+import { Role } from "@/types/User";
 import Navigation from "@/web/components/customs/Navigation";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
 
 type JwtPayload = {
   sub: string;
+  role?: Role;
   iat: number;
   exp: number;
 };
@@ -43,13 +45,13 @@ const getUserFromCookies = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-  if (!token) return { isLoggedIn: false, email: "" };
+  if (!token) return { isLoggedIn: false, email: "", role: undefined };
 
   try {
     const payload = parseToken(token);
-    return { isLoggedIn: true, email: payload.sub };
+    return { isLoggedIn: true, email: payload.sub, role: payload.role };
   } catch {
-    return { isLoggedIn: false, email: "" };
+    return { isLoggedIn: false, email: "", role: undefined };
   }
 };
 
@@ -63,7 +65,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen flex-col`}
         suppressHydrationWarning
       >
         <AuthProvider value={auth}>

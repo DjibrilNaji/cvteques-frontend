@@ -27,7 +27,7 @@ interface LoginFormProps {
 
 export default function LoginForm({ form }: LoginFormProps) {
   const router = useRouter();
-  const { setIsLoggedIn, setEmail } = useAuth();
+  const { setIsLoggedIn, setEmail, setRole } = useAuth();
 
   const { isPending, mutate } = useCustomMutation(
     async (values: LoginFormType) => await login(values),
@@ -41,6 +41,7 @@ export default function LoginForm({ form }: LoginFormProps) {
         }
         setIsLoggedIn(true);
         setEmail(form.getValues("email"));
+        setRole(data.role);
 
         toast.success(data.customMessage);
         router.push(routes.home);

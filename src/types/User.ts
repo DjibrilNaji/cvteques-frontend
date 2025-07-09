@@ -5,9 +5,10 @@ export enum Roles {
   ECOLE = "ECOLE",
 }
 
-export interface User {
+export interface UserType {
   id: number;
-  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
   role: Role;
   school?: School | null;

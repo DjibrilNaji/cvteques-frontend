@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/web/components/ui/button";
 import { LoaderCircleIcon } from "lucide-react";
 
 type PendingCVProps = {

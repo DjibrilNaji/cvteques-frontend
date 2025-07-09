@@ -1,12 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/web/components/ui/button";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/web/components/ui/tabs";
 import Link from "next/link";
 
-import { ArrowLeft } from "lucide-react";
-import { ProfileGeneralInfo } from "@/web/components/customs/profil/ProfileGeneralInfo";
 import { ProfileCV } from "@/web/components/customs/profil/ProfileCV";
+import { ProfileGeneralInfo } from "@/web/components/customs/profil/ProfileGeneralInfo";
+import { ArrowLeft } from "lucide-react";
 
 export default function ProfilePage() {
   return (

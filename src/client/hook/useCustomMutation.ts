@@ -1,5 +1,10 @@
 import { ApiError } from "@/types/Api";
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export function useCustomMutation<TData, TVariables>(
@@ -26,6 +31,19 @@ export function useCustomMutation<TData, TVariables>(
         options.onError(error, variables, context);
       }
     },
+    ...options,
+  });
+}
+
+export function useCustomQuery<TData>(
+  queryKey: unknown[],
+  queryFn: (context: { queryKey: unknown[] }) => Promise<TData>,
+  options?: UseQueryOptions<TData, ApiError>
+) {
+  return useQuery<TData, ApiError>({
+    queryKey,
+    queryFn: () => queryFn({ queryKey }),
+    retry: 0,
     ...options,
   });
 }

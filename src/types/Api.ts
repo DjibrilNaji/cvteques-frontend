@@ -4,5 +4,6 @@ export type ApiError = {
 };
 
 export type ApiResponse = {
+  token: string;
   customMessage: string;
 };

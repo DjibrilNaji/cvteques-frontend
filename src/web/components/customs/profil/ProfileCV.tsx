@@ -1,19 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useCustomMutation } from "@/client/hook/useCustomMutation";
+import { uploadCV } from "@/client/services/intervenantCV";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/web/components/ui/card";
+import { useState } from "react";
 import { toast } from "sonner";
-import { useCustomMutation } from "@/client/hook/useCustomMutation";
-import { uploadCV } from "@/client/services/intervenantCV";
-import { UploadCVZone } from "./UploadCVZone";
 import { PendingCV } from "./PendingCV";
+import { UploadCVZone } from "./UploadCVZone";
 import { UploadedCV } from "./UploadedCV";
 
 export function ProfileCV() {

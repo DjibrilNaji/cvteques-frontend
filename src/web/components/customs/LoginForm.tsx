@@ -1,8 +1,11 @@
 "use client";
 
 import { useCustomMutation } from "@/client/hook/useCustomMutation";
+import { useAuth } from "@/client/provider/AuthProvider";
+import routes from "@/client/routes";
 import { login } from "@/client/services/auth";
-import { Button } from "@/components/ui/button";
+import { LoginFormType } from "@/types/Form";
+import { Button } from "@/web/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { LoginFormType } from "@/types/Form";
+} from "@/web/components/ui/form";
+import { Input } from "@/web/components/ui/input";
+import Cookies from "js-cookie";
 import { LoaderCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { UseFormReturn } from "react-hook-form";
@@ -21,15 +24,26 @@ import { toast } from "sonner";
 interface LoginFormProps {
   form: UseFormReturn<LoginFormType>;
 }
+
 export default function LoginForm({ form }: LoginFormProps) {
   const router = useRouter();
+  const { setIsLoggedIn, setEmail } = useAuth();
 
   const { isPending, mutate } = useCustomMutation(
     async (values: LoginFormType) => await login(values),
     {
       onSuccess: (data) => {
+        if (data.token) {
+          Cookies.set("token", data.token, {
+            expires: 7,
+            sameSite: "Lax",
+          });
+        }
+        setIsLoggedIn(true);
+        setEmail(form.getValues("email"));
+
         toast.success(data.customMessage);
-        router.push("/profil");
+        router.push(routes.home);
       },
     }
   );
@@ -46,7 +60,7 @@ export default function LoginForm({ form }: LoginFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="example@email.com" {...field} />
+                <Input type="email" {...field} placeholder="exemple@mail.com" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,22 +74,18 @@ export default function LoginForm({ form }: LoginFormProps) {
             <FormItem>
               <FormLabel>Mot de passe</FormLabel>
               <FormControl>
-                <Input type="password" {...field} placeholder="•••••••" />
+                <Input type="password" {...field} placeholder="********" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button
-          type="submit"
-          className="w-full cursor-pointer"
-          disabled={isPending}
-        >
+        <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && (
             <LoaderCircleIcon className="-ms-1 animate-spin" size={16} />
           )}
-          Se connecter
+          {isPending ? "Inscription..." : "S'inscrire"}
         </Button>
       </form>
     </Form>

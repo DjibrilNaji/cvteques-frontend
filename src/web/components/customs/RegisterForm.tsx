@@ -148,11 +148,17 @@ export default function RegisterForm({ form }: RegisterFormProps) {
                       <SelectValue placeholder="Sélectionnez une école" />
                     </SelectTrigger>
                     <SelectContent>
-                      {schoolOptions.map((school) => (
-                        <SelectItem key={school.id} value={String(school.id)}>
-                          {school.name}
+                      {schoolOptions.length > 0 ? (
+                        schoolOptions.map((school) => (
+                          <SelectItem key={school.id} value={String(school.id)}>
+                            {school.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem disabled value="0">
+                          Aucune école disponible
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 </FormControl>

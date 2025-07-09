@@ -85,7 +85,7 @@ export default function LoginForm({ form }: LoginFormProps) {
           {isPending && (
             <LoaderCircleIcon className="-ms-1 animate-spin" size={16} />
           )}
-          {isPending ? "Inscription..." : "S'inscrire"}
+          {isPending ? "Connexion..." : "Se connecter"}
         </Button>
       </form>
     </Form>

@@ -9,9 +9,13 @@ const routes = {
       register: "/users/register",
       login: "/users/login",
     },
+    cvs: {
+      upload: (intervenantId: number) => `/cv/upload/${intervenantId}`,
+      delete: (intervenantId: number) => `/cv/${intervenantId}`,
+      get: `/cv`,
+    },
     user: (email: string) => `/users/${email}`,
-    upload: (intervenantId: number) => `/cv/upload/${intervenantId}`,
-    delete: (intervenantId: number) => `/cv/${intervenantId}`,
+
     schools: "/schools",
   },
 };

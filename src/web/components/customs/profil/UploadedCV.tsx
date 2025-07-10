@@ -5,6 +5,7 @@ import { DeleteCvModal } from "./DeleteCvModal";
 
 type UploadedCVProps = {
   name: string;
+  url: string;
   date: string;
   intervenantId: number;
   onDeleteSuccess: () => void;
@@ -12,6 +13,7 @@ type UploadedCVProps = {
 
 export function UploadedCV({
   name,
+  url,
   date,
   intervenantId,
   onDeleteSuccess,
@@ -27,7 +29,7 @@ export function UploadedCV({
       </div>
 
       <div className="flex justify-end items-center w-full gap-2 ">
-        <Link href={`http://localhost:8080/cvs/${name}`} target="_blank">
+        <Link href={`http://localhost:8080/${url}`} target="_blank">
           <Button className="bg-green-700 text-white hover:bg-green-800 hover:text-white text-sm">
             Voir
           </Button>

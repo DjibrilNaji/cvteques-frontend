@@ -28,6 +28,7 @@ export default function Profile() {
   const [pendingCV, setPendingCV] = useState<File | null>(null);
   const [uploadedCV, setUploadedCV] = useState<{
     name: string;
+    url: string;
     date: string;
   } | null>(null);
 
@@ -48,6 +49,7 @@ export default function Profile() {
         toast.success(data.customMessage);
         setUploadedCV({
           name: pendingCV!.name,
+          url: "",
           date: new Date().toLocaleDateString("fr-FR"),
         });
         setPendingCV(null);
@@ -60,6 +62,7 @@ export default function Profile() {
     if (user?.cv) {
       setUploadedCV({
         name: user.cv.title,
+        url: user.cv.url,
         date: new Date(user.cv.updatedAt).toLocaleDateString("fr-FR"),
       });
     }
@@ -149,6 +152,7 @@ export default function Profile() {
                   {uploadedCV && (
                     <UploadedCV
                       name={uploadedCV.name}
+                      url={uploadedCV.url}
                       date={uploadedCV.date}
                       intervenantId={user.id}
                       onDeleteSuccess={() => setUploadedCV(null)}

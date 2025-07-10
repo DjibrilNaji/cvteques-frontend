@@ -19,3 +19,11 @@ export const loginFormSchema = z.object({
 });
 
 export type LoginFormType = z.infer<typeof loginFormSchema>;
+
+export const personalInfoFormSchema = z.object({
+  firstname: z.string().min(1, "Prénom requis"),
+  lastname: z.string().min(1, "Nom requis"),
+  email: z.string().email("Email invalide"),
+});
+
+export type PersonalInfoFormType = z.infer<typeof personalInfoFormSchema>;

@@ -6,7 +6,15 @@ import { Button } from "@/web/components/ui/button";
 import { useCustomQuery } from "@/web/hook/useCustomMutation";
 import routes from "@/web/routes";
 import { getUser } from "@/web/services/user";
-import { BookOpen, LogOut, Menu, School, User, X } from "lucide-react";
+import {
+  BookOpen,
+  Briefcase,
+  LogOut,
+  Menu,
+  School,
+  User,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -57,12 +65,28 @@ export default function Navigation() {
     <nav className="bg-white border-b shadow-sm sticky top-0 z-50">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href={routes.home} className="flex items-center space-x-2">
-            <BookOpen className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
-            <span className="text-lg sm:text-xl font-bold text-gray-900">
-              CVTech
-            </span>
-          </Link>
+          <div className="flex items-center space-x-4">
+            <Link href={routes.home} className="flex items-center space-x-2">
+              <BookOpen className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+              <span className="text-lg sm:text-xl font-bold text-gray-900">
+                CVTech
+              </span>
+            </Link>
+
+            {user.role === Roles.INTERVENANT ? (
+              <div className="flex items-center space-x-2">
+                <Briefcase className="h-5 w-5 text-green-600" />
+                <span className="text-sm font-medium text-green-700">
+                  Intervenant
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <School className="h-5 w-5 text-blue-600" />
+                <span className="text-sm font-medium text-blue-700">École</span>
+              </div>
+            )}
+          </div>
 
           <div className="hidden md:flex items-center space-x-6">
             {user.role === Roles.ECOLE && (

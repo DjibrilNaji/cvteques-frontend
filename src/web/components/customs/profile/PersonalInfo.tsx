@@ -24,7 +24,15 @@ import { useCustomMutation } from "@/web/hook/useCustomMutation";
 import { updateUser } from "@/web/services/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { Briefcase, Edit, LoaderCircleIcon, Save, User, X } from "lucide-react";
+import {
+  Briefcase,
+  Edit,
+  LoaderCircleIcon,
+  Save,
+  School,
+  User,
+  X,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -209,7 +217,7 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                     </>
                   ) : (
                     <>
-                      {/* <School className="h-5 w-5 text-blue-600" /> */}
+                      <School className="h-5 w-5 text-blue-600" />
                       <span className="text-sm font-medium text-blue-700">
                         École
                       </span>

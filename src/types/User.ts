@@ -8,7 +8,7 @@ export enum Roles {
 export interface UserType {
   id: number;
   firstname: string;
-  lastNnme: string;
+  lastname: string;
   email: string;
   role: Role;
   school?: School | null;
@@ -28,6 +28,7 @@ export interface Cv {
 }
 
 export interface UserDto {
+  id: number;
   firstname: string;
   lastname: string;
   email: string;

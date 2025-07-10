@@ -1,5 +1,5 @@
-import { AuthProvider } from "@/client/provider/AuthProvider";
-import TanstackProvider from "@/client/provider/TanstackProvider";
+import { AuthProvider } from "@/provider/AuthProvider";
+import TanstackProvider from "@/provider/TanstackProvider";
 import { Role } from "@/types/User";
 import Navigation from "@/web/components/customs/Navigation";
 import type { Metadata } from "next";

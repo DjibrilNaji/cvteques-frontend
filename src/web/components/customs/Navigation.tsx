@@ -1,11 +1,11 @@
 "use client";
 
-import { useCustomQuery } from "@/client/hook/useCustomMutation";
-import { useAuth } from "@/client/provider/AuthProvider";
-import routes from "@/client/routes";
-import { getUser } from "@/client/services/user";
+import { useAuth } from "@/provider/AuthProvider";
 import { Roles } from "@/types/User";
 import { Button } from "@/web/components/ui/button";
+import { useCustomQuery } from "@/web/hook/useCustomMutation";
+import routes from "@/web/routes";
+import { getUser } from "@/web/services/user";
 import { BookOpen, LogOut, Menu, School, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

@@ -10,7 +10,8 @@ const routes = {
       login: "/users/login",
     },
     user: (email: string) => `/users/${email}`,
-    upload: "/cv/upload",
+    upload: (intervenantId: number) => `/cv/upload/${intervenantId}`,
+    delete: (intervenantId: number) => `/cv/${intervenantId}`,
     schools: "/schools",
   },
 };

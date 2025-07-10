@@ -1,6 +1,5 @@
 "use client";
 
-import routes from "@/client/routes";
 import { loginFormSchema, LoginFormType } from "@/types/Form";
 import LoginForm from "@/web/components/customs/LoginForm";
 import {
@@ -10,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/web/components/ui/card";
+import routes from "@/web/routes";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, BookOpen } from "lucide-react";

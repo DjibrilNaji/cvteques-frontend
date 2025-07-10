@@ -1,6 +1,6 @@
 import { School } from "@/types/User";
+import axiosClient from "@/utils/axiosInstance";
 import routes from "../routes";
-import axiosClient from "../utils/axiosInstance";
 
 export const getSchools = async (): Promise<School[]> => {
   const response = await axiosClient.get(routes.api.schools, {

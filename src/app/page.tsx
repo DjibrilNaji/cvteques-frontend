@@ -1,9 +1,9 @@
 "use client";
 
-import { useAuth } from "@/client/provider/AuthProvider";
-import routes from "@/client/routes";
+import { useAuth } from "@/provider/AuthProvider";
 import RoleSelection from "@/web/components/customs/Home/RoleSelection";
 import { Button } from "@/web/components/ui/button";
+import routes from "@/web/routes";
 import { BookOpen, Database, Shield, Users } from "lucide-react";
 import Link from "next/link";
 

@@ -1,11 +1,5 @@
 "use client";
 
-import {
-  useCustomMutation,
-  useCustomQuery,
-} from "@/client/hook/useCustomMutation";
-import { register } from "@/client/services/auth";
-import { getSchools } from "@/client/services/school";
 import { RegisterFormType } from "@/types/Form";
 import { Roles, School } from "@/types/User";
 import { Button } from "@/web/components/ui/button";
@@ -25,6 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/web/components/ui/select";
+import {
+  useCustomMutation,
+  useCustomQuery,
+} from "@/web/hook/useCustomMutation";
+import { register } from "@/web/services/auth";
+import { getSchools } from "@/web/services/school";
 import { LoaderCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -1,6 +1,5 @@
 "use client";
 
-import routes from "@/client/routes";
 import { Roles } from "@/types/User";
 import { Button } from "@/web/components/ui/button";
 import {
@@ -10,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/web/components/ui/card";
+import routes from "@/web/routes";
 import { ArrowRight, School, User } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

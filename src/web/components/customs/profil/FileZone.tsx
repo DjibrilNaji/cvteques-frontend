@@ -1,10 +1,11 @@
 import { Upload } from "lucide-react";
+import { ChangeEvent } from "react";
 
-type UploadCVZoneProps = {
-  onFileSelected: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+interface DeleteCvModalProps {
+  handleCVSelection: (e: ChangeEvent<HTMLInputElement>) => void;
+}
 
-export function UploadCVZone({ onFileSelected }: UploadCVZoneProps) {
+export function FileZone({ handleCVSelection }: DeleteCvModalProps) {
   return (
     <label
       htmlFor="cv-upload"
@@ -19,7 +20,7 @@ export function UploadCVZone({ onFileSelected }: UploadCVZoneProps) {
         id="cv-upload"
         type="file"
         accept=".pdf"
-        onChange={onFileSelected}
+        onChange={handleCVSelection}
         className="hidden"
       />
     </label>

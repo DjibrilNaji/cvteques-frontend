@@ -1,5 +1,7 @@
 "use client";
 import { Role } from "@/types/User";
+import routes from "@/web/routes";
+import { useRouter } from "next/navigation";
 import {
   createContext,
   ReactNode,
@@ -40,6 +42,8 @@ export function AuthProvider({ children, value }: AuthProviderProps) {
   const [email, setEmail] = useState(value.email);
   const [role, setRole] = useState<Role | undefined>(undefined);
 
+  const router = useRouter();
+
   useEffect(() => {
     setIsLoggedIn(value.isLoggedIn);
     setEmail(value.email);
@@ -52,6 +56,8 @@ export function AuthProvider({ children, value }: AuthProviderProps) {
     setIsLoggedIn(false);
     setEmail("");
     setRole(undefined);
+
+    router.push(routes.home);
   };
 
   return (

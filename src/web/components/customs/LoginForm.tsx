@@ -1,9 +1,6 @@
 "use client";
 
-import { useCustomMutation } from "@/client/hook/useCustomMutation";
-import { useAuth } from "@/client/provider/AuthProvider";
-import routes from "@/client/routes";
-import { login } from "@/client/services/auth";
+import { useAuth } from "@/provider/AuthProvider";
 import { LoginFormType } from "@/types/Form";
 import { Button } from "@/web/components/ui/button";
 import {
@@ -15,6 +12,9 @@ import {
   FormMessage,
 } from "@/web/components/ui/form";
 import { Input } from "@/web/components/ui/input";
+import { useCustomMutation } from "@/web/hook/useCustomMutation";
+import routes from "@/web/routes";
+import { login } from "@/web/services/auth";
 import Cookies from "js-cookie";
 import { LoaderCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

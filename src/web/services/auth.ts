@@ -1,8 +1,8 @@
 import { ApiResponse, LoginResponse } from "@/types/Api";
 import { LoginRequest } from "@/types/LoginRequest";
 import { RegisterRequest } from "@/types/RegisterRequest";
+import axiosClient from "@/utils/axiosInstance";
 import routes from "../routes";
-import axiosClient from "../utils/axiosInstance";
 
 export const register = async (
   registerRequest: RegisterRequest

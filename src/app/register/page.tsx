@@ -1,6 +1,5 @@
 "use client";
 
-import { registerFormSchema, RegisterFormType } from "@/types/Form";
 import RegisterForm from "@/web/components/customs/RegisterForm";
 import {
   Card,
@@ -10,24 +9,10 @@ import {
   CardTitle,
 } from "@/web/components/ui/card";
 import routes from "@/web/routes";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
 
 export default function Register() {
-  const form = useForm<RegisterFormType>({
-    resolver: zodResolver(registerFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      firstname: "",
-      lastname: "",
-      role: undefined,
-      school: undefined,
-    },
-  });
-
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
@@ -44,7 +29,7 @@ export default function Register() {
         </CardHeader>
 
         <CardContent>
-          <RegisterForm form={form} />
+          <RegisterForm />
 
           <div className="text-center space-y-4 pt-4 border-t mt-4">
             <p className="text-sm text-gray-600">

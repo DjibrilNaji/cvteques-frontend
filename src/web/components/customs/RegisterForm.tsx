@@ -1,6 +1,6 @@
 "use client";
 
-import { RegisterFormType } from "@/types/Form";
+import { registerFormSchema, RegisterFormType } from "@/types/Form";
 import { Roles, School } from "@/types/User";
 import { Button } from "@/web/components/ui/button";
 import {
@@ -23,24 +23,38 @@ import {
   useCustomMutation,
   useCustomQuery,
 } from "@/web/hook/useCustomMutation";
+import routes from "@/web/routes";
 import { register } from "@/web/services/auth";
 import { getSchools } from "@/web/services/school";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import Spinner from "./utils/Spinner";
 
-interface RegisterFormProps {
-  form: UseFormReturn<RegisterFormType>;
-}
-
-export default function RegisterForm({ form }: RegisterFormProps) {
+export default function RegisterForm() {
   const [schoolOptions, setSchoolOptions] = useState<School[]>([]);
+  const form = useForm<RegisterFormType>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: {
+      email: "naji@gmail.com",
+      password: "test1234",
+      firstname: "Jean",
+      lastname: "Dupont",
+      role: Roles.ECOLE,
+      school: undefined,
+    },
+  });
   const watchRole = form.watch("role");
   const router = useRouter();
 
-  const { data: dynamicSchools } = useCustomQuery(["schools"], getSchools);
+  const {
+    data: dynamicSchools,
+    isLoading,
+    error,
+  } = useCustomQuery(["schools"], getSchools);
 
   useEffect(() => {
     if (dynamicSchools) {
@@ -53,10 +67,19 @@ export default function RegisterForm({ form }: RegisterFormProps) {
     {
       onSuccess: (data) => {
         toast.success(data.customMessage);
-        router.push("/login");
+        router.push(routes.login);
       },
     }
   );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    toast.error("Erreur lors du chargement des écoles");
+    return null;
+  }
 
   const onSubmit = (data: RegisterFormType) => mutate(data);
 

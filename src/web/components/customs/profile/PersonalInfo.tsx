@@ -219,7 +219,11 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                     <>
                       <School className="h-5 w-5 text-blue-600" />
                       <span className="text-sm font-medium text-blue-700">
-                        École
+                        École{" : "}
+                      </span>
+
+                      <span className="text-sm font-medium text-gray-500">
+                        {user.school?.name}
                       </span>
                     </>
                   )}

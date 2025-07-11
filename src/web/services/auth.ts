@@ -1,8 +1,8 @@
-import { ApiResponse } from "@/types/Api";
+import { ApiResponse, LoginResponse } from "@/types/Api";
 import { LoginRequest } from "@/types/LoginRequest";
 import { RegisterRequest } from "@/types/RegisterRequest";
+import axiosClient from "@/utils/axiosInstance";
 import routes from "../routes";
-import axiosClient from "../utils/axiosInstance";
 
 export const register = async (
   registerRequest: RegisterRequest
@@ -20,7 +20,7 @@ export const register = async (
 
 export const login = async (
   loginRequest: LoginRequest
-): Promise<ApiResponse> => {
+): Promise<LoginResponse> => {
   const response = await axiosClient.post(routes.api.auth.login, loginRequest, {
     withCredentials: true,
   });

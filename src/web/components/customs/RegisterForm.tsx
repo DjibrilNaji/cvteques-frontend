@@ -1,8 +1,8 @@
 "use client";
 
-import { useCustomMutation } from "@/client/hook/useCustomMutation";
-import { register } from "@/client/services/auth";
-import { Button } from "@/components/ui/button";
+import { RegisterFormType } from "@/types/Form";
+import { Roles, School } from "@/types/User";
+import { Button } from "@/web/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,19 +10,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/web/components/ui/form";
+import { Input } from "@/web/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { RegisterFormType } from "@/types/Form";
-import { Roles } from "@/types/User";
+} from "@/web/components/ui/select";
+import {
+  useCustomMutation,
+  useCustomQuery,
+} from "@/web/hook/useCustomMutation";
+import { register } from "@/web/services/auth";
+import { getSchools } from "@/web/services/school";
 import { LoaderCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -31,14 +36,24 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ form }: RegisterFormProps) {
+  const [schoolOptions, setSchoolOptions] = useState<School[]>([]);
+  const watchRole = form.watch("role");
   const router = useRouter();
+
+  const { data: dynamicSchools } = useCustomQuery(["schools"], getSchools);
+
+  useEffect(() => {
+    if (dynamicSchools) {
+      setSchoolOptions(dynamicSchools);
+    }
+  }, [dynamicSchools]);
 
   const { isPending, mutate } = useCustomMutation(
     async (values: RegisterFormType) => await register(values),
     {
       onSuccess: (data) => {
         toast.success(data.customMessage);
-        router.push("/profil");
+        router.push("/login");
       },
     }
   );
@@ -48,7 +63,33 @@ export default function RegisterForm({ form }: RegisterFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Je suis</FormLabel>
+              <FormControl>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Sélectionnez votre rôle" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={Roles.INTERVENANT}>
+                      Intervenant
+                    </SelectItem>
+                    <SelectItem value={Roles.ECOLE}>
+                      De l&apos;équipe pédagogique
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="firstname"
@@ -84,12 +125,48 @@ export default function RegisterForm({ form }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="example@email.com" {...field} />
+                <Input type="email" {...field} placeholder="exemple@mail.com" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        {watchRole === Roles.ECOLE && (
+          <FormField
+            control={form.control}
+            name="school"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nom de l&apos;école</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? undefined}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Sélectionnez une école" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {schoolOptions.length > 0 ? (
+                        schoolOptions.map((school) => (
+                          <SelectItem key={school.id} value={String(school.id)}>
+                            {school.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem disabled value="0">
+                          Aucune école disponible
+                        </SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           control={form.control}
@@ -98,42 +175,18 @@ export default function RegisterForm({ form }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Mot de passe</FormLabel>
               <FormControl>
-                <Input type="password" {...field} placeholder="•••••••" />
+                <Input type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Rôle</FormLabel>
-              <FormControl>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choisissez un rôle" />
-                  </SelectTrigger>
-                  <SelectContent className="min-w-0">
-                    <SelectItem value={Roles.INTERVENANT}>
-                      Intervenant
-                    </SelectItem>
-                    <SelectItem value={Roles.ECOLE}>École</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" className="w-full cursor-pointer">
+        <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && (
             <LoaderCircleIcon className="-ms-1 animate-spin" size={16} />
           )}
-          S&apos;inscrire
+          {isPending ? "Inscription..." : "S'inscrire"}
         </Button>
       </form>
     </Form>
